@@ -1,3 +1,8 @@
+.page {
+  background-color: white;
+  min-height: 300vh;
+}
+
 .container {
   background-color: rgb(183, 226, 233);
   min-height: 100vh;
@@ -8,4 +13,5 @@
   font-weight: bold;
   text-align: center;
   padding-top: 5%;
+  z-index: 200;
 }
