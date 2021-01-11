@@ -13,7 +13,6 @@ export default function Home()
     return (
       <div className={styles.page}>
         
-
         {session && <p>Signed in as {session.user.email} <br/> <a href='/api/auth/signout'>Sign Out</a> </p>}
         {!session && <p><a href="/api/auth/signin">Sign in</a></p>}
           
