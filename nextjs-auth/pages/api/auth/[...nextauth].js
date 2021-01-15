@@ -24,12 +24,13 @@ const options = {
         Providers.Credentials({
             name: 'Credentials',
             credentials: {
-                username: { label: "Username", type: "text", placeholder: "jsmith" },
+                name: { label: "Full Name", type: "name", placeholder: "John Smith" },
+                email: { label: "Email", type: "email", placeholder: "jsmith@example.com" },
                 password: { label: "Password", type: "password" }
             },
             authorize: async (credentials) => {
-                const user = {username: credentials.username, password: credentials.password}
-
+                const user = {name: credentials.name, email: credentials.email, password: credentials.password}
+                
                 if (user) {
                     return Promise.resolve(user)
                 } else {
@@ -37,7 +38,12 @@ const options = {
                 }
 
             }
-        })
+        }),
+
+        // Providers.Google({
+        //     clientId: process.env.GOOGLE_CLIENT_ID,
+        //     clientSecret: process.env.GOOGLE_SECRET
+        // }),
 
     ],
 
