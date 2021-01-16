@@ -34,16 +34,12 @@ const options = {
                 if (user) {
                     return Promise.resolve(user)
                 } else {
-                    return Promise.resolve(null)
+                    //return Promise.resolve(null)
+                    return Promise.reject(new Error('error message'))
                 }
 
             }
         }),
-
-        // Providers.Google({
-        //     clientId: process.env.GOOGLE_CLIENT_ID,
-        //     clientSecret: process.env.GOOGLE_SECRET
-        // }),
 
     ],
 

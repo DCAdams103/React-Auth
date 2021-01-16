@@ -19,7 +19,8 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "serverless-mysql": "^1.5.4",
-    "sql-template-strings": "^2.2.2"
+    "sql-template-strings": "^2.2.2",
+    "swr": "^0.4.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",

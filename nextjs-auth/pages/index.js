@@ -6,12 +6,15 @@ import {
   signOut,
   useSession
 } from 'next-auth/client'
+import { passFunc } from './lib/swr-hooks'
+import { showText } from './lib/maybethis'
 
 export default function Home()
 {
 
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
+  const [name, setName] = useState('')
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -34,7 +37,13 @@ export default function Home()
     }
   }
 
-    const [session, loading] = useSession()
+
+  const [session, loading] = useSession()
+  const { data } = passFunc("dylancadams1@gmail.com");
+  function showText() {
+    console.log(data)
+  }
+    
     return (
       <div className={styles.page}>
 
@@ -47,7 +56,9 @@ export default function Home()
         </form>
 
         {!session && <button onClick={handleSubmit}>Click me</button>}
+        {session && <button onClick={function() { setEmail(session.user.email); showText() }}>Bro idk</button>}
         {session && <p>Signed in as {session.user.name} <br/> <a href='/api/auth/signout'>Sign Out</a> </p>}
+        
         {!session && <p><a href="/api/auth/signin">Sign in</a></p>}
           
       </div>
