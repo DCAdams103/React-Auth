@@ -1,20 +1,18 @@
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import React, {Component, useState} from 'react'
+import React, {useState} from 'react'
 import {
-  signIn,
-  signOut,
   useSession
 } from 'next-auth/client'
-import { passFunc } from './lib/swr-hooks'
-import { showText } from './lib/maybethis'
+import { getEntry } from './lib/swr-hooks'
+import { findUser } from './api/users'
+import { Box, Grid, TextField, Button } from '@material-ui/core'
 
 export default function Home()
 {
 
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
-  const [name, setName] = useState('')
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -37,29 +35,63 @@ export default function Home()
     }
   }
 
+  function testFunc()
+  {
+    const results = getEntry("dylancadams1@gmail.com");
+    console.log(results)
+  }
+
 
   const [session, loading] = useSession()
-  const { data } = passFunc("dylancadams1@gmail.com");
-  function showText() {
-    console.log(data)
-  }
-    
+  
+
     return (
       <div className={styles.page}>
 
-        <form onSubmit={handleSubmit}>
-          <input id="email" type="text" name="email" value={email} 
-                  onChange={(e) => setEmail(e.target.value)} />
-
-          <textarea id="pass" name="pass" value={pass} 
-                  onChange={(e) => setPass(e.target.value)} />
-        </form>
-
-        {!session && <button onClick={handleSubmit}>Click me</button>}
-        {session && <button onClick={function() { setEmail(session.user.email); showText() }}>Bro idk</button>}
-        {session && <p>Signed in as {session.user.name} <br/> <a href='/api/auth/signout'>Sign Out</a> </p>}
+        <Grid container
+              spacing={0}
+              alignItems="center"
+              justify="center"
+              style={{ minHeight: "100vh" }}>
         
-        {!session && <p><a href="/api/auth/signin">Sign in</a></p>}
+          
+
+          <Box className={styles.inputs}>
+
+            <p style={{paddingBottom:'1vh'}} />
+            <header className={styles.signIn}> Sign in</header>
+            <header className={styles.signIn} style={{fontSize:'30px'}}> or <a href=""> create an account</a> </header>
+            
+            <p style={{paddingBottom:'1vh'}} />
+            <TextField id="email" label="Email" variant="filled" color="secondary" style={{width:'20vw'}}
+                      inputProps={{ 
+                        style: {backgroundColor: 'rgba(255,255,255, .7)', 
+                                borderRadius:'60px', 
+                                boxShadow: '5px 5px 40px rgb(42,0,65)'}, 
+                                }} />
+            <p style={{paddingBottom:'1vh'}} />
+            <TextField id="password" label="Password" variant="filled" color="secondary" style={{width:'20vw'}}
+                      inputProps={{ 
+                        style: {backgroundColor: 'rgba(255,255,255, .7)', 
+                                borderRadius:'60px', 
+                                boxShadow: '5px 5px 30px rgb(42,0,65)'}, 
+                                }} />
+
+            {/* <form onSubmit={handleSubmit}>
+              <input id="email" type="text" name="email" placeholder="email" value={email} 
+                      onChange={(e) => setEmail(e.target.value)} />
+              <br/>
+              <input id="pass" name="pass" placeholder="password" value={pass} 
+                      onChange={(e) => setPass(e.target.value)} />
+            </form> */}
+            
+            <p style={{paddingBottom:'1vh'}} />
+            <Button variant="contained" color="primary"> Sign In </Button>
+            {/* <button onClick={testFunc}>Click me</button> */}
+            <p style={{paddingBottom:'1vh'}} />
+          </Box>
+
+        </Grid>
           
       </div>
     )

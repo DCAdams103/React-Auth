@@ -1,10 +1,31 @@
 .page {
-  background-color: white;
-  min-height: 300vh;
+  background-image:linear-gradient(45deg, purple, rgb(110, 0, 132));
+  min-height: 100vh;
+}
+
+.signIn {
+  color: white;
+  font-weight: bold;
+  font-size: 50px;
+  font-style: italic;
+}
+
+.inputs {
+  text-align: center;
+  margin: 0 auto; 
+  min-width: 25vw;
+  min-height: 50vh;
+  border: double 4px transparent;
+  border-radius: 60px;
+  background-image: linear-gradient(rgba(72, 0, 87), rgb(72, 0, 87)), radial-gradient(circle at top left, #f00,#3020ff);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  
+  box-shadow: 5px 5px 40px rgb(42,0,65);
 }
 
 .container {
-  background-color: rgb(183, 226, 233);
+  background-color: rgb(44, 0, 88);
   min-height: 100vh;
 }
 
