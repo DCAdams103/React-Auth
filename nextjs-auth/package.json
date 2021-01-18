@@ -23,7 +23,8 @@
     "react-dom": "17.0.1",
     "serverless-mysql": "^1.5.4",
     "sql-template-strings": "^2.2.2",
-    "swr": "^0.4.0"
+    "swr": "^0.4.0",
+    "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",

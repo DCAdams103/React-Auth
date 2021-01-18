@@ -6,5 +6,6 @@ function fetcher(url: string) {
 
 export function getEntry(id: string) {
     //const { data } = useSWR(`/api/get-entry?id=${id}`, fetcher)
-    return useSWR(`/api/get-entry?id=${id}`, fetcher)
+    
+    return useSWR(`/api/get-entry?id=${id}`, fetcher);
 }

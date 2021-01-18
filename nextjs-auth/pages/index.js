@@ -6,89 +6,70 @@ import {
 } from 'next-auth/client'
 import { getEntry } from './lib/swr-hooks'
 import { findUser } from './api/users'
-import { Box, Grid, TextField, Button } from '@material-ui/core'
+import { Box, Grid, TextField, Button, withStyles } from '@material-ui/core'
+import { useRouter } from 'next/router'
+import Cookies from 'universal-cookie'
 
 export default function Home()
 {
-
+  {/* React Hooks */}  
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
-
-  async function handleSubmit(e) {
-    e.preventDefault()
-    try {
-      const res = await fetch('/api/create-entry', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          pass,
-        }),
-      })
-      const json = await res.json()
-      if (!res.ok) throw Error(json.message)
-      
-    } catch(e) {
-      throw Error(e.message)
-    }
-  }
+  const [session, loading] = useSession()
+  
+  const router = useRouter()
+  const bcrypt = require('bcryptjs')
+  const saltRounds = 10
 
   function testFunc()
   {
-    const results = getEntry("dylancadams1@gmail.com");
-    console.log(results)
+    {/* Stores the email in a cookie which will be accessed in the new page */}
+    const cookies = new Cookies()
+    cookies.set('email', email, {path:'/'})
+    
   }
-
-
-  const [session, loading] = useSession()
-  
 
     return (
       <div className={styles.page}>
 
+        {/* Centers the components in the middle of the screen */}
         <Grid container
               spacing={0}
               alignItems="center"
               justify="center"
               style={{ minHeight: "100vh" }}>
-        
-          
 
           <Box className={styles.inputs}>
 
             <p style={{paddingBottom:'1vh'}} />
             <header className={styles.signIn}> Sign in</header>
-            <header className={styles.signIn} style={{fontSize:'30px'}}> or <a href=""> create an account</a> </header>
+            <header className={styles.signIn} style={{fontSize:'30px'}}> or <a href="/create"> create an account</a> </header>
             
+            {/* Text Field for user to input their email */}
             <p style={{paddingBottom:'1vh'}} />
-            <TextField id="email" label="Email" variant="filled" color="secondary" style={{width:'20vw'}}
+            <TextField required id="email" label="Email" variant="filled" color="secondary" style={{width:'20rem'}}
+                      onChange={(e) => setEmail(e.target.value)} // When the field changes, store the textfields value in the email hook.
                       inputProps={{ 
                         style: {backgroundColor: 'rgba(255,255,255, .7)', 
                                 borderRadius:'60px', 
                                 boxShadow: '5px 5px 40px rgb(42,0,65)'}, 
-                                }} />
+                        }} />
+
+            {/* Text Field for user to input their password */}
             <p style={{paddingBottom:'1vh'}} />
-            <TextField id="password" label="Password" variant="filled" color="secondary" style={{width:'20vw'}}
+            <TextField required id="password" label="Password" variant="filled" color="secondary" style={{width:'20rem'}}
+                      onChange={(e) => setPass(e.target.value)} // When the field changes, store the textfields value in the pass hook.
                       inputProps={{ 
                         style: {backgroundColor: 'rgba(255,255,255, .7)', 
                                 borderRadius:'60px', 
                                 boxShadow: '5px 5px 30px rgb(42,0,65)'}, 
-                                }} />
+                        }} />
 
-            {/* <form onSubmit={handleSubmit}>
-              <input id="email" type="text" name="email" placeholder="email" value={email} 
-                      onChange={(e) => setEmail(e.target.value)} />
-              <br/>
-              <input id="pass" name="pass" placeholder="password" value={pass} 
-                      onChange={(e) => setPass(e.target.value)} />
-            </form> */}
-            
+            {/* The Sign In button will lead the user to a new page and display their accounts data if their account is located in the db */}
             <p style={{paddingBottom:'1vh'}} />
-            <Button variant="contained" color="primary"> Sign In </Button>
-            {/* <button onClick={testFunc}>Click me</button> */}
+            <Button variant="contained" color="primary" onClick={testFunc} href='/signin'> Sign In </Button>
             <p style={{paddingBottom:'1vh'}} />
+
           </Box>
 
         </Grid>

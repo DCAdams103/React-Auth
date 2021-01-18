@@ -2,9 +2,9 @@ import { NextApiHandler } from 'next'
 import { query } from '../lib/db'
 
 const handler: NextApiHandler = async (req, res) => {
-    const {email, pass} = req.body
+    const {email, hashed} = req.body
     try {
-        if (!email || !pass){ 
+        if (!email || !hashed){ 
             return res
                 .status(400)
                 .json({ message: '`email` and `pass` are both empty.'})
@@ -15,7 +15,7 @@ const handler: NextApiHandler = async (req, res) => {
             INSERT INTO users (email, pass)
             VALUES (?, ?)
             `, 
-            [email, pass]
+            [email, hashed]
         )
         return res.json(results)
     } catch(e) {
