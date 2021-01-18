@@ -7,7 +7,7 @@ import { Grid, Box } from '@material-ui/core'
 
 export default function signIn() 
 {
-    const router = useRouter()
+    
     const cookies = new Cookies()
     const email = cookies.get('email')
     const { data } = getEntry(email)
@@ -19,7 +19,8 @@ export default function signIn()
             cookies.set('id', data.id)
             cookies.set('created_at', data.created_at)
         }
-    })
+
+    }, [])
 
     return ( 
         <div className={styles.page}>

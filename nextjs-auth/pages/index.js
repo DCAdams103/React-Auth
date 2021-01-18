@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   useSession
 } from 'next-auth/client'
@@ -16,16 +16,29 @@ export default function Home()
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
   const [session, loading] = useSession()
+  const [err, setErr] = useState('')
   
   const router = useRouter()
   const bcrypt = require('bcryptjs')
   const saltRounds = 10
+
+  useEffect( () => {
+    setEmail('')
+    setPass('')
+  }, [])
 
   function testFunc()
   {
     {/* Stores the email in a cookie which will be accessed in the new page */}
     const cookies = new Cookies()
     cookies.set('email', email, {path:'/'})
+    if(email && pass)
+    {
+      router.push('/signin')
+    } else if (!email || !pass)
+    {
+      setErr('Please enter your email and password.')
+    }
     
   }
 
@@ -44,6 +57,9 @@ export default function Home()
             <p style={{paddingBottom:'1vh'}} />
             <header className={styles.signIn}> Sign in</header>
             <header className={styles.signIn} style={{fontSize:'30px'}}> or <a href="/create"> create an account</a> </header>
+            
+            {/* If err has a value, show the error message */}
+            {err && <header className={styles.signIn} style={{fontSize:'20px', color:'red'}}> {err} </header>}
             
             {/* Text Field for user to input their email */}
             <p style={{paddingBottom:'1vh'}} />
@@ -67,7 +83,7 @@ export default function Home()
 
             {/* The Sign In button will lead the user to a new page and display their accounts data if their account is located in the db */}
             <p style={{paddingBottom:'1vh'}} />
-            <Button variant="contained" color="primary" onClick={testFunc} href='/signin'> Sign In </Button>
+            <Button variant="contained" color="primary" onClick={testFunc} > Sign In </Button>
             <p style={{paddingBottom:'1vh'}} />
 
           </Box>
