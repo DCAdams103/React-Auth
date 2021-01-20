@@ -11,5 +11,6 @@
 ![image](readmeImages/CreateAccount.png)
 
 ## Account Information
+### This pulls data from the MySQL database if authentication succeeds. 
 ### Once I finish the authentication and signin process, this will be redesigned.
 ![image](readmeImages/AccountInformation.png)
