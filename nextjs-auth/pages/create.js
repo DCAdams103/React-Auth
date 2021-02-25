@@ -48,7 +48,7 @@ export default function CreateAccount()
             throw Error(e.message)
         }
 
-        router.push('/signin')
+        router.push('/profile')
 
     }
 

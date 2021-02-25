@@ -2,9 +2,9 @@ import { NextApiHandler } from 'next'
 import { query } from '../lib/db'
 
 const handler: NextApiHandler = async (req, res) => {
-    const { id } = req.query
+    const { email } = req.query
     try {
-        if(!id) {
+        if(!email) {
             return res.status(400).json({message: '`id` required'})
         }
         // if (typeof parseInt(id.toString()) !== 'number') {
@@ -15,7 +15,7 @@ const handler: NextApiHandler = async (req, res) => {
             SELECT id, created_at
             FROM users 
             WHERE email = ?
-            `, id
+            `, email
         )
         
         return res.json(results[0])

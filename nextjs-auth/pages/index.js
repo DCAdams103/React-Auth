@@ -27,14 +27,14 @@ export default function Home()
     setPass('')
   }, [])
 
-  function testFunc()
+  function storeData()
   {
     {/* Stores the email in a cookie which will be accessed in the new page */}
     const cookies = new Cookies()
     cookies.set('email', email, {path:'/'})
     if(email && pass)
     {
-      router.push('/signin')
+      router.push('/profile')
     } else if (!email || !pass)
     {
       setErr('Please enter your email and password.')
@@ -83,10 +83,12 @@ export default function Home()
 
             {/* The Sign In button will lead the user to a new page and display their accounts data if their account is located in the db */}
             <p style={{paddingBottom:'1vh'}} />
-            <Button variant="contained" color="primary" onClick={testFunc} > Sign In </Button>
+            <Button variant="contained" color="primary" onClick={storeData} > Sign In </Button>
             <p style={{paddingBottom:'1vh'}} />
 
           </Box>
+
+          
 
         </Grid>
           
