@@ -26,14 +26,30 @@ export default function Home()
     setEmail('')
     setPass('')
   }, [])
+  const cookies = new Cookies()
+  const {data} = getEntry(cookies.get('email'))
+
+  function getTheData()
+  {
+    
+    if(data)
+    {
+      return true;
+    }
+
+    return false;
+  }
 
   function storeData()
   {
     {/* Stores the email in a cookie which will be accessed in the new page */}
     const cookies = new Cookies()
     cookies.set('email', email, {path:'/'})
-    if(email && pass)
+    if(email && pass && getTheData())
     {
+      cookies.set('id', data.id, {path:'/'})
+      cookies.set('created_at', data.created_at, {path:'/'})
+      
       router.push('/profile')
     } else if (!email || !pass)
     {

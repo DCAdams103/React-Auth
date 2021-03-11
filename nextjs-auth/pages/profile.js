@@ -19,7 +19,7 @@ export default function signIn()
             cookies.set('created_at', data.created_at)
         }
 
-    }, [])
+    }, [data]) // will run everytime the data variable changes in value.
 
     return ( 
         <div className={styles.page}>
@@ -43,6 +43,9 @@ export default function signIn()
                         style={{padding:'3%'}}
                     >
 
+                        <script>
+                            console.log("test");
+                        </script>
                         <header className={styles.titles}> <b>User ID:</b> {cookies.get('id')} </header>
                         <br/>
                         <header className={styles.titles}> <b>Email:</b> {cookies.get('email')} </header>
