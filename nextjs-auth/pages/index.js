@@ -1,11 +1,9 @@
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import React, {useState, useEffect} from 'react'
 import {
   useSession
 } from 'next-auth/client'
 import { getEntry } from './lib/swr-hooks'
-import { findUser } from './api/users'
 import { Box, Grid, TextField, Button, withStyles } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import Cookies from 'universal-cookie'
@@ -18,6 +16,7 @@ export default function Home()
   const [session, loading] = useSession()
   const [err, setErr] = useState('')
   
+  // Variables for bcrypt to encrypt password
   const router = useRouter()
   const bcrypt = require('bcryptjs')
   const saltRounds = 10
@@ -26,31 +25,30 @@ export default function Home()
     setEmail('')
     setPass('')
   }, [])
+
   const cookies = new Cookies()
-  const {data} = getEntry(cookies.get('email'))
+  const {data} = getEntry(email)
 
-  function getTheData()
+  // Make sure there is data
+  function checkData()
   {
-    
-    if(data)
-    {
-      return true;
-    }
-
-    return false;
+    return data;
   }
 
   function storeData()
   {
     {/* Stores the email in a cookie which will be accessed in the new page */}
     const cookies = new Cookies()
+    // Set the 'email' cookie globally
     cookies.set('email', email, {path:'/'})
-    if(email && pass && getTheData())
+
+    if(email && pass && checkData())
     {
+      // Global cookies
       cookies.set('id', data.id, {path:'/'})
       cookies.set('created_at', data.created_at, {path:'/'})
       
-      router.push('/profile')
+      router.push(`/profile/${data.id}`)
     } else if (!email || !pass)
     {
       setErr('Please enter your email and password.')
@@ -103,8 +101,6 @@ export default function Home()
             <p style={{paddingBottom:'1vh'}} />
 
           </Box>
-
-          
 
         </Grid>
           

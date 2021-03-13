@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { getEntry } from './lib/swr-hooks'
+import { getEntry } from './../lib/swr-hooks'
 import Cookies from 'universal-cookie'
-import styles from '../styles/Profile.module.css'
+import styles from '../../styles/Profile.module.css'
 import { Grid, Box } from '@material-ui/core'
 
-export default function signIn() 
+function signIn() 
 {
     
     const cookies = new Cookies()
     const email = cookies.get('email')
     const { data } = getEntry(email)
-
     useEffect(() => {
         {/* If the data exists, store the data in hooks */}
         if(data !== undefined)
@@ -20,7 +19,7 @@ export default function signIn()
         }
 
     }, [data]) // will run everytime the data variable changes in value.
-
+    
     return ( 
         <div className={styles.page}>
 
@@ -36,16 +35,13 @@ export default function signIn()
                 {/* Displays the users data */}
                 <Box className={styles.data}>
                     <Grid 
-                        container
-                        direction="column"
-                        justify="flex-start"
-                        alignItems="flex-start" 
-                        style={{padding:'3%'}}
+                    container
+                    direction="column"
+                    justify="flex-start"
+                    alignItems="flex-start" 
+                    style={{padding:'3%'}}
                     >
 
-                        <script>
-                            console.log("test");
-                        </script>
                         <header className={styles.titles}> <b>User ID:</b> {cookies.get('id')} </header>
                         <br/>
                         <header className={styles.titles}> <b>Email:</b> {cookies.get('email')} </header>
@@ -60,3 +56,5 @@ export default function signIn()
         </div>
     )
 }
+
+export default signIn
