@@ -14,7 +14,7 @@
 ## Account Information
 ### This pulls data from the MySQL database if authentication succeeds. 
 ### Once I finish the authentication and signin process, this will be redesigned.
-![image](readmeImages/AccountInformation.png)
+![image](readmeImages/NextAuth.png)
 
 ## Database in MySQL
 ### When a user signs up, a row is created in the users table.
