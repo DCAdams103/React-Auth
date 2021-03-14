@@ -4,7 +4,7 @@ import {
   useSession
 } from 'next-auth/client'
 import { getEntry } from './lib/swr-hooks'
-import { Box, Grid, TextField, Button, withStyles } from '@material-ui/core'
+import { Box, Grid, TextField, Button } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import Cookies from 'universal-cookie'
 
@@ -13,11 +13,11 @@ export default function Home()
   {/* React Hooks */}  
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
-  const [session, loading] = useSession()
   const [err, setErr] = useState('')
   
-  // Variables for bcrypt to encrypt password
   const router = useRouter()
+
+  // Variables for bcrypt to encrypt password
   const bcrypt = require('bcryptjs')
   const saltRounds = 10
 
@@ -29,30 +29,50 @@ export default function Home()
   const cookies = new Cookies()
   const {data} = getEntry(email)
 
-  // Make sure there is data
-  function checkData()
+  // Compares the user inputted password to the database hash.
+  async function comparePass(dbHash)
   {
-    return data;
+
+    // Make sure that data is not undefined.
+    if(!data) return false;
+    
+    // Use bcrypt to compare the user inputted password to the hash in the database.
+    const match = await bcrypt.compare(pass, dbHash)
+
+    // Return the promise
+    return match
+
   }
 
-  function storeData()
+  function submit()
   {
     {/* Stores the email in a cookie which will be accessed in the new page */}
     const cookies = new Cookies()
+    
     // Set the 'email' cookie globally
     cookies.set('email', email, {path:'/'})
 
-    if(email && pass && checkData())
-    {
-      // Global cookies
-      cookies.set('id', data.id, {path:'/'})
-      cookies.set('created_at', data.created_at, {path:'/'})
-      
-      router.push(`/profile/${data.id}`)
-    } else if (!email || !pass)
-    {
-      setErr('Please enter your email and password.')
-    }
+    // Once this promise is fulfilled, run the function to check if the password matched.
+    comparePass(data.pass).then(function(results){
+
+      if(email && pass && results)
+      {
+        // Global cookies
+        cookies.set('id', data.id, {path:'/'})
+        cookies.set('created_at', data.created_at, {path:'/'})
+        
+        // Go to the profile page
+        router.push(`/profile/${data.id}`)
+
+      } else if (!email || !pass)
+      {
+        setErr('Please enter your email and password.')
+      }
+      else if(!results)
+      {
+        setErr('Incorrect password.')
+      }
+    })
     
   }
 
@@ -97,7 +117,7 @@ export default function Home()
 
             {/* The Sign In button will lead the user to a new page and display their accounts data if their account is located in the db */}
             <p style={{paddingBottom:'1vh'}} />
-            <Button variant="contained" color="primary" onClick={storeData} > Sign In </Button>
+            <Button variant="contained" color="primary" onClick={submit} > Sign In </Button>
             <p style={{paddingBottom:'1vh'}} />
 
           </Box>

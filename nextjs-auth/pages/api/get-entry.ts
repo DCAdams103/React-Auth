@@ -5,12 +5,12 @@ const handler: NextApiHandler = async (req, res) => {
     const { email } = req.query
     try {
         if(!email) {
-            return res.status(400).json({message: '`id` required'})
+            return res.status(400).json({message: '`email` required'})
         }
         
         const results = await query(
             `
-            SELECT id, created_at
+            SELECT id, created_at, pass
             FROM users 
             WHERE email = ?
             `, email

@@ -16,6 +16,7 @@ function signIn()
         {
             cookies.set('id', data.id)
             cookies.set('created_at', data.created_at)
+            
         }
 
     }, [data]) // will run everytime the data variable changes in value.
