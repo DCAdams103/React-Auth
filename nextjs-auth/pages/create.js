@@ -29,7 +29,7 @@ export default function CreateAccount()
         e.preventDefault()
     
         try {
-            const res = await fetch('/api/create-entry', {
+            const res = await fetch('/api/create-user-acc', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

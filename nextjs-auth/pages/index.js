@@ -60,6 +60,7 @@ export default function Home()
         // Global cookies
         cookies.set('id', data.id, {path:'/'})
         cookies.set('created_at', data.created_at, {path:'/'})
+        cookies.set('desc', data.description, {path:'/'})
         
         // Go to the profile page
         router.push(`/profile/${data.id}`)
